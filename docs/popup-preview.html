@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Coffee Time — preview</title>
+<style>
+  @import url("../fonts/nunito-local.css");
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 40px;
+    background: #0d0d0d;
+    display: flex; gap: 28px;
+    font-family: "Nunito", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .cell { display: flex; flex-direction: column; gap: 10px; }
+  .cap {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .1em; color: #5a5a5a; text-align: center;
+  }
+  .pop {
+    width: 300px; padding: 18px 16px 16px;
+    background: #141414; color: #f2f2f2; border-radius: 12px;
+    border: 1px solid #2a2a2a;
+  }
+  .head { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 16px; }
+  .title { font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
+  .status { display: flex; align-items: center; justify-content: center; gap: 6px;
+            margin-top: 6px; font-size: 11.5px; color: #8d8d8d; }
+  .status::before { content:""; width:6px; height:6px; border-radius:50%; background:currentColor; }
+  .s-on { color:#8d8d8d } .s-alert { color:#ff6b6b; font-weight:700 } .s-off { color:#e8a33d; font-weight:700 }
+  .limit-wrap { display:flex; align-items:center; justify-content:center; gap:8px; margin-top:12px; }
+  .limit-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.09em; color:#6a6a6a; }
+  .sel { padding:7px 30px 7px 12px; border-radius:9px; border:1px solid #3a3a3a;
+         background:#1c1c1c; font-size:12.5px; font-weight:700; position:relative; }
+  .sel::after { content:"⌄"; position:absolute; right:11px; top:6px; color:#8d8d8d; }
+  .big { text-align:center; font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+         font-weight:700; -webkit-text-stroke:0.7px currentColor;
+         font-size:34px; font-variant-numeric:tabular-nums;
+         letter-spacing:-.03em; line-height:1.05; margin-top:4px; }
+  .big .unit { display:block; font-family:"Nunito",sans-serif; font-size:10.5px; font-weight:700;
+               text-transform:uppercase; letter-spacing:.1em; color:#8d8d8d; margin-top:5px;
+               -webkit-text-stroke:0; }
+  .big-alert { color:#ff6b6b } .big-off { color:#e8a33d }
+  .meter { height:6px; border-radius:99px; background:#262626; overflow:hidden; margin:14px 0 6px; }
+  .meter > i { display:block; height:100%; background:linear-gradient(90deg,#38b26b,#e8a33d 70%,#d92d20); }
+  .meta { font-size:11px; color:#8d8d8d; display:flex; justify-content:space-between; margin-bottom:16px; }
+  .switch-row { display:flex; align-items:center; justify-content:space-between; gap:12px;
+                padding:13px 14px; border-radius:12px; border:1px solid #2a2a2a; background:#1c1c1c; }
+  .sw-alert { border-color: rgba(217,45,32,.5); background: rgba(30,14,13,.8); }
+  .sw-off   { border-color: rgba(232,163,61,.4); background: rgba(30,24,12,.7); }
+  .sw-text { display:flex; flex-direction:column; gap:2px; }
+  .sw-title { font-size:12.5px; font-weight:700; }
+  .sw-sub { font-size:10.5px; color:#8d8d8d; }
+  .switch { position:relative; width:52px; height:30px; border-radius:99px; flex:0 0 auto; }
+  .switch .knob { position:absolute; top:3px; left:3px; width:22px; height:22px;
+                  border-radius:50%; box-shadow:0 2px 6px rgba(0,0,0,.55); }
+  .k-on { background:#38b26b; border:1px solid #38b26b; } .k-on .knob { transform:translateX(22px); background:#fff; }
+  .k-alert { background:#d92d20; border:1px solid #d92d20; } .k-alert .knob { transform:translateX(22px); background:#fff; }
+  .k-off { background:#3a3020; border:1px solid #e8a33d; } .k-off .knob { background:#e8a33d; }
+  .reset-row { display:flex; justify-content:center; margin-top:10px; }
+  .reset-btn { display:inline-flex; align-items:center; gap:7px; background:none;
+               border:1px solid transparent; padding:7px 12px; border-radius:9px;
+               color:#8d8d8d; font-family:inherit; font-size:11.5px; font-weight:600; }
+  .reset-btn svg { width:16px; height:16px; fill:currentColor; }
+  .hint { font-size:10.5px; color:#6a6a6a; margin:10px auto 0; line-height:1.55;
+          text-align:center; max-width:250px; }
+</style>
+</head>
+<body>
+
+  <!-- 1. running normally -->
+  <div class="cell">
+    <div class="cap">Running</div>
+    <div class="pop">
+      <div class="head">
+        <div class="title">Coffee Time</div>
+        <div class="status s-on">Running normally</div>
+        <div class="limit-wrap"><span class="limit-label">Limit</span>
+          <span class="sel">3 hours</span></div>
+      </div>
+      <div class="big">2:45:10<span class="unit">remaining</span></div>
+      <div class="meter"><i style="width:8%"></i></div>
+      <div class="meta"><span>Elapsed 14m 50s</span><span>8%</span></div>
+      <div class="switch-row">
+        <div class="sw-text"><span class="sw-title">Reminder</span><span class="sw-sub">On</span></div>
+        <div class="switch k-on"><span class="knob"></span></div>
+      </div>
+      <div class="reset-row"><button class="reset-btn">
+        <svg viewBox="0 -960 960 960"><path d="M440-122q-121-15-200.5-105.5T160-440q0-66 26-126.5T260-672l57 57q-38 34-57.5 79T240-440q0 88 56 155.5T440-202v80Zm80 0v-80q87-16 143.5-83T720-440q0-100-70-170t-170-70h-3l44 44-56 56-140-140 140-140 56 56-44 44h3q134 0 227 93t93 227q0 121-79.5 211.5T520-122Z"/></svg>
+        <span>Reset</span></button></div>
+      <div class="hint">Cursor and dark overlay turn on after the limit is reached.</div>
+    </div>
+  </div>
+
+  <!-- 2. limit reached -->
+  <div class="cell">
+    <div class="cap">Time to rest</div>
+    <div class="pop">
+      <div class="head">
+        <div class="title">Coffee Time</div>
+        <div class="status s-alert">Time to rest!</div>
+        <div class="limit-wrap"><span class="limit-label">Limit</span>
+          <span class="sel">3 hours</span></div>
+      </div>
+      <div class="big big-alert">3:00:00<span class="unit">limit reached</span></div>
+      <div class="meter"><i style="width:100%"></i></div>
+      <div class="meta"><span>Elapsed 3h 0m</span><span>100%</span></div>
+      <div class="switch-row sw-alert">
+        <div class="sw-text"><span class="sw-title">Reminder</span><span class="sw-sub">On — time to rest</span></div>
+        <div class="switch k-alert"><span class="knob"></span></div>
+      </div>
+      <div class="reset-row"><button class="reset-btn">
+        <svg viewBox="0 -960 960 960"><path d="M440-122q-121-15-200.5-105.5T160-440q0-66 26-126.5T260-672l57 57q-38 34-57.5 79T240-440q0 88 56 155.5T440-202v80Zm80 0v-80q87-16 143.5-83T720-440q0-100-70-170t-170-70h-3l44 44-56 56-140-140 140-140 56 56-44 44h3q134 0 227 93t93 227q0 121-79.5 211.5T520-122Z"/></svg>
+        <span>Reset</span></button></div>
+      <div class="hint">I will warn you if you are naughty</div>
+    </div>
+  </div>
+
+  <!-- 3. paused -->
+  <div class="cell">
+    <div class="cap">Paused</div>
+    <div class="pop">
+      <div class="head">
+        <div class="title">Coffee Time</div>
+        <div class="status s-off">Reminder is off</div>
+        <div class="limit-wrap"><span class="limit-label">Limit</span>
+          <span class="sel">3 hours</span></div>
+      </div>
+      <div class="big big-off">OFF<span class="unit"></span></div>
+      <div class="meter"><i style="width:8%"></i></div>
+      <div class="meta"><span>Ran 14m 50s</span><span>8%</span></div>
+      <div class="switch-row sw-off">
+        <div class="sw-text"><span class="sw-title">Reminder</span><span class="sw-sub">Off</span></div>
+        <div class="switch k-off"><span class="knob"></span></div>
+      </div>
+      <div class="reset-row"><button class="reset-btn">
+        <svg viewBox="0 -960 960 960"><path d="M440-122q-121-15-200.5-105.5T160-440q0-66 26-126.5T260-672l57 57q-38 34-57.5 79T240-440q0 88 56 155.5T440-202v80Zm80 0v-80q87-16 143.5-83T720-440q0-100-70-170t-170-70h-3l44 44-56 56-140-140 140-140 56 56-44 44h3q134 0 227 93t93 227q0 121-79.5 211.5T520-122Z"/></svg>
+        <span>Reset</span></button></div>
+      <div class="hint">The reminder stays off until you turn it back on or restart Chrome.</div>
+    </div>
+  </div>
+
+</body>
+</html>

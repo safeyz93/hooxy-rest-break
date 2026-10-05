@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Coffee Time</title>
+<style>
+  /* Nunito — self-hosted so it works offline and passes MV3 CSP. */
+  @import url("fonts/nunito-local.css");
+
+  * { box-sizing: border-box; }
+
+  :root {
+    --bg: #141414;
+    --panel: #1c1c1c;
+    --panel-2: #232323;
+    --line: #333;
+    --line-soft: #2a2a2a;
+    --text: #f2f2f2;
+    --muted: #8d8d8d;
+    --faint: #6a6a6a;
+    --green: #38b26b;
+    --amber: #e8a33d;
+    --red: #d92d20;
+    --red-lit: #f04438;
+
+    --font-ui: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    /* The running timer keeps the original monospace stack. */
+    --font-num: ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+  }
+
+  body {
+    width: 300px;
+    margin: 0;
+    padding: 18px 16px 16px;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ================= header (centered) ================= */
+  .head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .title {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    line-height: 1.2;
+  }
+  .status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 6px;
+    font-size: 11.5px;
+    color: var(--muted);
+    transition: color .25s ease;
+  }
+  /* state dot inside the status line */
+  .status::before {
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: .85;
+    flex: 0 0 auto;
+  }
+  .status[data-state="on"]    { color: var(--muted); }
+  .status[data-state="alert"] { color: #ff6b6b; font-weight: 700; }
+  .status[data-state="off"]   { color: var(--amber); font-weight: 700; }
+
+  /* ================= limit dropdown (centered) ================= */
+  .limit-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .limit-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    color: var(--faint);
+  }
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 7px 30px 7px 12px;
+    border-radius: 9px;
+    border: 1px solid var(--line);
+    background: var(--panel)
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'><path d='M1 1l4 4 4-4' fill='none' stroke='%238d8d8d' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>")
+      no-repeat right 11px center;
+    color: var(--text);
+    font-size: 12.5px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color .15s, background-color .15s;
+  }
+  select:hover { border-color: #4a4a4a; background-color: var(--panel-2); }
+  select:focus { outline: none; border-color: var(--amber); }
+  select option { background: var(--panel); color: var(--text); }
+
+  /* ================= big timer ================= */
+  .big {
+    text-align: center;
+    font-family: var(--font-num);
+    font-size: 34px;
+    font-weight: 700;
+    /* Consolas only ships Regular + Bold, so font-weight above 700 has no
+       effect. A hairline stroke is the only way to get real extra weight. */
+    -webkit-text-stroke: 0.7px currentColor;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -.03em;
+    line-height: 1.05;
+    margin-top: 4px;
+    transition: color .25s ease;
+  }
+  .big .unit {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--muted);
+    margin-top: 5px;
+  }
+  .big[data-state="alert"] { color: #ff6b6b; }
+  .big[data-state="off"]   { color: var(--amber); }
+
+  /* ================= progress bar ================= */
+  .meter {
+    height: 6px;
+    border-radius: 99px;
+    background: #262626;
+    overflow: hidden;
+    margin: 14px 0 6px;
+  }
+  .meter > i {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--green), var(--amber) 70%, var(--red));
+    transition: width .5s ease;
+  }
+  .meta {
+    font-size: 11px;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  /* ================= switch row ================= */
+  .switch-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 13px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--line-soft);
+    background: var(--panel);
+    transition: border-color .25s ease, background .25s ease;
+  }
+  .switch-row[data-state="alert"] {
+    border-color: rgba(217, 45, 32, .5);
+    background: rgba(30, 14, 13, .8);
+  }
+  .switch-row[data-state="off"] {
+    border-color: rgba(232, 163, 61, .4);
+    background: rgba(30, 24, 12, .7);
+  }
+
+  .switch-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .switch-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+  }
+  .switch-sub {
+    font-size: 10.5px;
+    color: var(--muted);
+  }
+
+  /* --- the toggle itself --- */
+  .switch {
+    position: relative;
+    flex: 0 0 auto;
+    width: 52px;
+    height: 30px;
+    border-radius: 99px;
+    border: 1px solid #3d3d3d;
+    background: #2a2a2a;
+    cursor: pointer;
+    padding: 0;
+    transition: background .28s cubic-bezier(.4,0,.2,1),
+                border-color .28s cubic-bezier(.4,0,.2,1),
+                box-shadow .28s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .switch:hover { border-color: #555; }
+
+  /* knob */
+  .switch .knob {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #e8e8e8;
+    box-shadow: 0 2px 6px rgba(0,0,0,.55), 0 0 0 1px rgba(0,0,0,.15);
+    transition: transform .28s cubic-bezier(.4,0,.2,1), background .28s ease;
+    will-change: transform;
+  }
+
+  /* ON state — switch is on, everything normal */
+  .switch[aria-checked="true"] {
+    background: var(--green);
+    border-color: var(--green);
+  }
+  .switch[aria-checked="true"] .knob {
+    transform: translateX(22px);
+    background: #fff;
+  }
+
+  /* OFF (paused) — amber, knob to the left */
+  .switch[aria-checked="false"] {
+    background: #3a3020;
+    border-color: var(--amber);
+  }
+  .switch[aria-checked="false"] .knob {
+    transform: translateX(0);
+    background: var(--amber);
+  }
+
+  /* ALERT — reminder is firing; pulse the track in red */
+  .switch.pulsing[aria-checked="true"] {
+    background: var(--red);
+    border-color: var(--red);
+    animation: sw-pulse 1.5s ease-in-out infinite;
+  }
+  .switch.pulsing[aria-checked="true"] .knob {
+    background: #fff;
+  }
+  @keyframes sw-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(217, 45, 32, .6); background: var(--red); }
+    50%      { box-shadow: 0 0 0 8px rgba(217, 45, 32, 0); background: var(--red-lit); }
+  }
+
+  /* amber pulse when the reminder is paused */
+  .switch.pulsing.amber[aria-checked="false"] {
+    animation: sw-pulse-amber 1.8s ease-in-out infinite;
+  }
+  @keyframes sw-pulse-amber {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(232, 163, 61, .55); }
+    50%      { box-shadow: 0 0 0 8px rgba(232, 163, 61, 0); }
+  }
+
+  .switch:focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: 2px;
+  }
+
+  /* ================= reset button (icon only) ================= */
+  .reset-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  .reset-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    background: none;
+    border: 1px solid transparent;
+    padding: 7px 12px;
+    border-radius: 9px;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color .15s, background .15s, border-color .15s;
+  }
+  .reset-btn:hover {
+    color: var(--text);
+    background: var(--panel);
+    border-color: var(--line-soft);
+  }
+  .reset-btn:active { transform: scale(.97); }
+  .reset-btn:focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: 2px;
+  }
+  .reset-btn svg {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+    fill: currentColor;
+    transition: transform .45s cubic-bezier(.4, 0, .2, 1);
+  }
+  /* spin the icon on hover — reads as "start over" */
+  .reset-btn:hover svg { transform: rotate(-180deg); }
+  .reset-btn:active svg { transform: rotate(-180deg) scale(.9); }
+
+  /* ================= hint (centered) ================= */
+  .hint {
+    font-size: 10.5px;
+    color: var(--faint);
+    margin: 10px auto 0;
+    line-height: 1.55;
+    text-align: center;
+    max-width: 250px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .switch.pulsing, .switch.pulsing.amber { animation: none !important; }
+    .switch .knob { transition: none !important; }
+    .meter > i { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- header: title + status, centered -->
+  <div class="head">
+    <div class="title">Coffee Time</div>
+    <div class="status" id="statusText" data-state="on">Calculating…</div>
+
+    <!-- limit dropdown, centered under the title -->
+    <div class="limit-wrap">
+      <span class="limit-label">Limit</span>
+      <select id="limitSelect">
+        <option value="60000">1 minute</option>
+        <option value="10800000" selected>3 hours</option>
+        <option value="21600000">6 hours</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- timer -->
+  <div class="big" id="bigWrap" data-state="on">
+    <span id="remaining">—</span>
+    <span class="unit" id="remainingUnit"></span>
+  </div>
+
+  <div class="meter"><i id="bar"></i></div>
+  <div class="meta">
+    <span id="elapsedText">—</span>
+    <span id="pctText">—</span>
+  </div>
+
+  <!-- toggle switch row -->
+  <div class="switch-row" id="switchRow" data-state="on">
+    <div class="switch-text">
+      <span class="switch-title">Reminder</span>
+      <span class="switch-sub" id="switchSub">On</span>
+    </div>
+    <button
+      class="switch"
+      id="reminderSwitch"
+      role="switch"
+      aria-checked="true"
+      aria-label="Break reminder on or off">
+      <span class="knob"></span>
+    </button>
+  </div>
+
+  <div class="reset-row">
+    <button class="reset-btn" id="resetBtn" title="Reset timer to 0" aria-label="Reset timer to 0">
+      <svg viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M440-122q-121-15-200.5-105.5T160-440q0-66 26-126.5T260-672l57 57q-38 34-57.5 79T240-440q0 88 56 155.5T440-202v80Zm80 0v-80q87-16 143.5-83T720-440q0-100-70-170t-170-70h-3l44 44-56 56-140-140 140-140 56 56-44 44h3q134 0 227 93t93 227q0 121-79.5 211.5T520-122Z"/>
+      </svg>
+      <span>Reset</span>
+    </button>
+  </div>
+
+  <div class="hint" id="hint">
+    Cursor and dark overlay turn on after the limit is reached.
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
