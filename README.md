@@ -168,3 +168,7 @@ render `docs/popup.png`. It is not part of the extension.
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+## Tip
+
+SOL : DcjLpDVQ79zVTLhnCLWWrVdTtYvoQJZq2vWkhBHg3RN9
