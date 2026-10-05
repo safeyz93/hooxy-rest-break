@@ -14,7 +14,7 @@ the cursor turns into a barista, the page darkens, and the tab title blinks
 - **Dark overlay** — the page dims and blurs slightly (no text, no interruption)
 - **Blinking tab title** — alternates between the page title and `Time to Rest`
 - **Toggle switch** — pause and resume the reminder with one click
-- **Selectable limit** — 1 minute / 3 hours / 6 hours, defaults to 3 hours
+- **Selectable limit** — 1 hour / 3 hours / 6 hours, defaults to 3 hours
 - **Frozen clock while paused** — pausing genuinely stops the timer; the
   progress bar does not keep moving, and no elapsed time is lost on resume
 - **Offline** — the font is self-hosted, no network requests at runtime

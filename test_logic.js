@@ -187,7 +187,7 @@ console.log("\n--- limit validation ---");
   check("reject negative", valid(-5000) === false);
   check("reject NaN", valid("abc") === false);
   check("reject below floor", valid(1000) === false);
-  check("accept 1 minute", valid(MIN) === true);
+  check("accept 1 hour", valid(HOUR) === true);
   check("accept 3 hours", valid(3 * HOUR) === true);
   check("accept 6 hours", valid(6 * HOUR) === true);
 }
@@ -249,9 +249,10 @@ console.log("\n--- preset limits from the dropdown ---");
     if (t % 60 === 0) return `${t / 60} minute${t / 60 > 1 ? "s" : ""}`;
     return `${t} seconds`;
   }
-  check("1 minute label", limitLabel(60 * 1000) === "1 minute");
+  check("1 hour label", limitLabel(60 * 60 * 1000) === "1 hour");
   check("3 hours label", limitLabel(3 * 60 * 60 * 1000) === "3 hours");
   check("6 hours label", limitLabel(6 * 60 * 60 * 1000) === "6 hours");
+  check("plural: 2 hours", limitLabel(2 * 60 * 60 * 1000) === "2 hours");
 }
 
 console.log(`\n${"=".repeat(46)}`);
