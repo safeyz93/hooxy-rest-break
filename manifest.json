@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Coffee Time",
-  "version": "3.2.0",
-  "description": "After Chrome has been running past your time limit, the cursor changes into a rest reminder, the tab title blinks \"Time to Rest\", and the page darkens.",
+  "version": "3.3.1",
+  "description": "After your time limit, the cursor changes and the page slowly blurs and darkens to remind you to rest.",
   "minimum_chrome_version": "109",
   "permissions": [
     "storage",

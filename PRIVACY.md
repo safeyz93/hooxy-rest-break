@@ -75,7 +75,7 @@ that behaviour would be disclosed here.
 
 Questions about this policy can be sent to:
 
-**hanacarakasafeyz@gmail.com**
+**your-email@example.com**
 
 ---
 

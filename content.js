@@ -1,16 +1,33 @@
 // Coffee Time — content script
-// Handles: custom cursor, dark overlay, blinking tab title.
+// Handles: custom cursor, pulsing blur overlay, blinking tab title.
 
 const CURSOR_URL = chrome.runtime.getURL("cursor/cursor.png");
 
-const OVERLAY_ID = "__break_reminder_overlay__";
+const ROOT_ID = "__break_reminder_overlay__";
 const STYLE_ID = "__break_reminder_style__";
 const BLINK_TITLE = "Time to Rest";
+
+// One full pulse cycle: clear -> blur -> black -> clear.
+const PULSE_SECONDS = 9;
+
+// The overlay is built from stacked layers, each with a FIXED blur level.
+// Only their opacity is animated, which keeps the work on the GPU. Animating
+// `backdrop-filter` itself would force a full-page repaint every frame.
+//
+// Delays ramp from the lightest layer to the heaviest, so the blur reads as
+// "creeping in" rather than snapping on all at once.
+const LAYERS = [
+  { cls: "br-dark",  delay: 0.00 },
+  { cls: "br-blur1", delay: 0.18 },
+  { cls: "br-blur2", delay: 0.42 },
+  { cls: "br-blur3", delay: 0.68 },
+  { cls: "br-black", delay: 0.95 },
+];
 
 let breakActive = false;
 let blinkTimer = null;
 let originalTitle = null;
-let currentLimitMs = 1 * 60 * 1000;
+let currentLimitMs = 3 * 60 * 60 * 1000;
 
 // ---------- CSS ----------
 
@@ -34,28 +51,87 @@ function injectStyle() {
       cursor: url("${CURSOR_URL}") 6 6, pointer !important;
     }
 
-    /* ===== Dark overlay + blur (no text) ===== */
-    #${OVERLAY_ID} {
+    /* ===== Pulsing blur overlay =====
+       A single keyframe drives every layer, and only opacity is animated so
+       the work stays on the GPU. Layers are staggered with a delay, which
+       makes the blur appear to grow gradually instead of snapping on.
+       The ramp is symmetric, with a short hold at the peak. */
+    @keyframes br-pulse {
+      0%   { opacity: 0; }
+      11%  { opacity: .20; }
+      22%  { opacity: .52; }
+      33%  { opacity: .82; }
+      44%  { opacity: 1; }
+      56%  { opacity: 1; }
+      67%  { opacity: .82; }
+      78%  { opacity: .52; }
+      89%  { opacity: .20; }
+      100% { opacity: 0; }
+    }
+
+    #${ROOT_ID} {
       position: fixed !important;
-      inset: 0 !important;
+      inset: -5% !important;          /* overscan so the scale shows no edge */
       z-index: 2147483647 !important;
       pointer-events: none !important;
-      background: radial-gradient(
-        ellipse at center,
-        rgba(8, 8, 8, 0.55) 0%,
-        rgba(4, 4, 4, 0.82) 70%,
-        rgba(0, 0, 0, 0.92) 100%
-      ) !important;
-      backdrop-filter: blur(3px) saturate(0.75) !important;
-      -webkit-backdrop-filter: blur(3px) saturate(0.75) !important;
       opacity: 0;
       transition: opacity 900ms ease-in-out;
     }
+    #${ROOT_ID}.br-visible { opacity: 1 !important; }
 
-    #${OVERLAY_ID}.br-visible { opacity: 1 !important; }
+    #${ROOT_ID} > div {
+      position: absolute !important;
+      inset: 0 !important;
+      opacity: 0;
+      will-change: opacity;
+      backface-visibility: hidden;
+      transform: translateZ(0);      /* promote to its own GPU layer */
+    }
+
+    /* Layer 1 — darkness + vignette */
+    #${ROOT_ID} .br-dark {
+      background: radial-gradient(
+        ellipse at center,
+        rgba(0, 0, 0, .30) 0%,
+        rgba(0, 0, 0, .62) 48%,
+        rgba(0, 0, 0, .88) 76%,
+        rgba(0, 0, 0, .99) 100%
+      ) !important;
+    }
+
+    /* Layers 2-4 — fixed blur levels, only opacity moves */
+    #${ROOT_ID} .br-blur1 {
+      backdrop-filter: blur(3px) saturate(.75) brightness(.90) !important;
+      -webkit-backdrop-filter: blur(3px) saturate(.75) brightness(.90) !important;
+    }
+    #${ROOT_ID} .br-blur2 {
+      backdrop-filter: blur(8px) saturate(.45) brightness(.78) !important;
+      -webkit-backdrop-filter: blur(8px) saturate(.45) brightness(.78) !important;
+    }
+    #${ROOT_ID} .br-blur3 {
+      backdrop-filter: blur(16px) saturate(.22) brightness(.62) !important;
+      -webkit-backdrop-filter: blur(16px) saturate(.22) brightness(.62) !important;
+    }
+
+    /* Layer 5 — the final black veil */
+    #${ROOT_ID} .br-black { background: rgba(0, 0, 0, .92) !important; }
+
+    /* Only run the pulse while the reminder is active. */
+    #${ROOT_ID}.br-visible > div {
+      animation: br-pulse var(--br-dur, ${PULSE_SECONDS}s) ease-in-out infinite;
+    }
 
     @media (prefers-reduced-motion: reduce) {
-      #${OVERLAY_ID} { transition: none !important; }
+      #${ROOT_ID}, #${ROOT_ID} > div {
+        transition: none !important;
+        animation: none !important;
+      }
+      /* Still darken the page — just without the pulsing. */
+      #${ROOT_ID}.br-visible .br-dark,
+      #${ROOT_ID}.br-visible .br-black { opacity: 1; }
+      #${ROOT_ID}.br-visible .br-blur1 { opacity: .6; }
+      #${ROOT_ID}.br-visible .br-blur2 { opacity: .4; }
+      #${ROOT_ID}.br-visible .br-blur3 { opacity: .6; }
     }
   `;
   (document.head || document.documentElement).appendChild(style);
@@ -64,21 +140,28 @@ function injectStyle() {
 // ---------- overlay ----------
 
 function ensureOverlay() {
-  let el = document.getElementById(OVERLAY_ID);
+  let el = document.getElementById(ROOT_ID);
   if (el) return el;
+
   el = document.createElement("div");
-  el.id = OVERLAY_ID;
+  el.id = ROOT_ID;
   el.setAttribute("aria-hidden", "true");
-  // No text, no card — just a dark layer.
+
+  for (const cfg of LAYERS) {
+    const layer = document.createElement("div");
+    layer.className = cfg.cls;
+    // staggers the layers so the blur ramps in rather than snapping on
+    layer.style.setProperty("--br-delay", `${cfg.delay}s`);
+    layer.style.animationDelay = `${cfg.delay}s`;
+    el.appendChild(layer);
+  }
+
+  el.style.setProperty("--br-dur", `${PULSE_SECONDS}s`);
+
   // At document_start, <body> may not exist yet — fall back to <html>.
   const host = document.body || document.documentElement;
   if (host) host.appendChild(el);
   return el;
-}
-
-function removeOverlay() {
-  const el = document.getElementById(OVERLAY_ID);
-  if (el) el.remove();
 }
 
 // ---------- blinking tab title ----------
@@ -124,13 +207,13 @@ function activate(limitMs) {
   document.documentElement.classList.add("__break_reminder_active");
 
   // Always make sure a connected overlay exists: on an SPA navigation the
-  // original node can be detached, and we were leaving it detached before.
+  // original node can be detached.
   let el = ensureOverlay();
   if (el && !el.isConnected) {
     const host = document.body || document.documentElement;
     if (host) {
       host.appendChild(el);
-      el = document.getElementById(OVERLAY_ID) || el;
+      el = document.getElementById(ROOT_ID) || el;
     }
   }
 
@@ -148,7 +231,7 @@ function deactivate() {
   breakActive = false;
   document.documentElement.classList.remove("__break_reminder_active");
   stopTitleBlink();
-  const el = document.getElementById(OVERLAY_ID);
+  const el = document.getElementById(ROOT_ID);
   if (el) el.classList.remove("br-visible");
 }
 

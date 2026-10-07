@@ -1,0 +1,280 @@
+================================================================
+COFFEE TIME — PANDUAN ISI DASHBOARD CHROME WEB STORE
+================================================================
+
+Buka Item -> tab per tab. Ikutin urut dari atas.
+Semua teks siap copy-paste. Bagian [ISI SENDIRI] perlu data dari lu.
+
+
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+TAB 1 — STORE LISTING
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+
+PRODUCT DETAILS
+  Language        : English
+  Item name       : Coffee Time
+                    (sudah terisi otomatis dari manifest)
+
+  Summary         : [sudah terisi otomatis dari manifest, 102/132 karakter]
+                    After your time limit, the cursor changes and the page slowly blurs and darkens to remind you to rest.
+
+  Description     : >>> copy dari blok DESKRIPSI di bawah <<<
+
+
+------------------- COPY DESKRIPSI (3.013 / 16.000 karakter) -------------------
+
+Coffee Time is a simple, quiet reminder to step away from the screen.
+
+Set a limit — 1 hour, 3 hours, or 6 hours. Chrome starts counting the moment you open it. When the limit passes, every web page changes so you cannot miss it: the cursor becomes a resting character, the page slowly blurs and darkens, and the tab title blinks "Time to Rest". Take a break, then pause or reset the reminder from the popup.
+
+No accounts. No sign-up. No data collection. It works entirely offline.
+
+HOW IT WORKS
+
+Chrome opens and the clock starts from zero. The popup shows how much time is left and a progress bar. Before your limit, nothing happens and your browsing is untouched.
+
+Once the limit is reached, three things happen on every page you visit:
+
+• The cursor turns into a resting character — a calm visual nudge, not a popup you have to close
+• The page slowly blurs and darkens in a gentle pulse, drawing focus back to you instead of the screen
+• The tab title blinks between the page name and "Time to Rest", so you notice it even in a background tab
+
+Everything reverses the moment you switch the reminder off in the popup.
+
+SET IT YOUR WAY
+
+• Choose your limit: 1 hour, 3 hours, or 6 hours. Changing it restarts the clock from zero.
+• Pause anytime with a single switch. The clock genuinely freezes — the progress bar does not keep creeping, and no time you have already used is lost when you resume.
+• Reset to zero whenever you want to start a fresh session, keeping your current limit.
+• The limit returns to the default of 3 hours whenever Chrome is fully closed and reopened, so each browsing session starts clean.
+
+DESIGNED TO STAY OUT OF THE WAY
+
+The reminder only appears after your limit. Before that, there is no badge, no notification, no banner and no toolbar clutter — just a normal browser. It never blocks clicks, never covers content you need, and disappears instantly when you switch it off.
+
+The visual effect is built to be light on your machine. It is animated in a way that keeps the work on your graphics processor rather than repainting the whole page every frame, so it stays smooth even on heavy sites. If you have "reduce motion" enabled in your system settings, the page still dims but the animation is skipped.
+
+PRIVACY
+
+Coffee Time collects nothing. It does not read the pages you visit, does not track you, and makes no network requests at runtime. Your timer setting is stored locally in your own browser and never leaves your device. There is no analytics, no telemetry, and no third-party service.
+
+WHY INSTALL IT
+
+• You lose track of time while working or scrolling and want a nudge that actually reaches you
+• You prefer a visual reminder to a notification you swipe away
+• You are looking for screens that get dimmer, not popups that interrupt
+• You want something that works offline with no account and no data collection
+
+A quiet way to notice how long you have been sitting there. Set a limit, get on with your work, and let Coffee Time tell you when it is time to step away.
+
+----------------------- SAMPAI SINI -----------------------
+
+
+CATEGORY
+  Category        : Productivity
+                    (kalau ada sub-kategori, pilih Productivity lain-lain / Workflow)
+
+  Store icon      : upload  store-assets/store-icon-128x128.png
+
+
+GRAPHIC ASSETS
+  Screenshots     : upload 2 file ini (minimal 1, maksimal 5)
+                      store-assets/screenshot-1-overlay.png   1280x800
+                      store-assets/screenshot-2-popup.png     1280x800
+
+  Small promo tile: upload  store-assets/promo-small-440x280.png     440x280
+                    (opsional — boleh dikosongin)
+
+  Marquee promo   : upload  store-assets/promo-marquee-1400x560.png  1400x560
+                    (opsional — boleh dikosongin)
+
+  Promo video     : kosongin aja (nggak punya video YouTube)
+
+
+ADDITIONAL FIELDS
+  Homepage URL    : [ISI SENDIRI] URL repo GitHub lu
+                    contoh: https://github.com/USERNAME/coffee-time
+
+  Support URL     : [ISI SENDIRI] URL issues GitHub lu
+                    contoh: https://github.com/USERNAME/coffee-time/issues
+                    (alternatif: mailto:email@kamu.com)
+
+  Official URL    : kosongin (nggak punya situs resmi)
+
+  Mature content  : centang TIDAK ADA / No
+
+
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+TAB 2 — PRIVACY
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+
+Ada 2 bagian di tab ini: "Single purpose" dan "Permissions".
+
+----------------------- BAGIAN A: SINGLE PURPOSE -----------------------
+
+Google nanya: "Explain the single purpose of your extension."
+
+>>> COPY INI <<<
+
+Coffee Time has one purpose: to remind the user to take a break after a
+self-selected amount of time. It does this by replacing the cursor, dimming
+and blurring the page, and blinking the tab title once the user's time limit
+has passed.
+
+>>> SAMPAI SINI <<<
+
+Kalau ada kolom "Justify the need for the following permissions", isi pakai
+bagian B di bawah.
+
+
+----------------------- BAGIAN B: PERMISSION JUSTIFICATION -----------------------
+
+Kalau dashboard nampilin satu kolom per permission, copy blok yang cocok.
+Kalau cuma satu kolom besar, gabung semuanya.
+
+
+
+--- storage ---
+
+Used to save the user's own timer state: when the current session's clock
+started, which time limit the user selected, and whether the reminder is
+paused. This is stored with chrome.storage.local on the user's device only.
+It is never transmitted anywhere.
+
+
+
+--- alarms ---
+
+Used to check the timer periodically (every 30 seconds) so the reminder can
+activate shortly after the selected limit is reached. This avoids keeping a
+background script running continuously, which would waste resources.
+
+
+
+--- tabs ---
+
+Used to find the open web pages where the visual reminder needs to be shown,
+and to send them the activation message. The extension reads the tab's URL
+only to decide whether the page can be modified. Tab content is never read,
+stored, or transmitted.
+
+
+
+--- host permissions (<all_urls>) ---
+
+The reminder must appear on whichever website the user happens to be reading
+when their time limit is reached, so the content script has to be able to run
+on any page. The script only injects visual styling (a cursor image and a
+dark overlay). It never reads, modifies, or transmits page content, and it
+does not run on chrome:// pages or the Chrome Web Store.
+
+
+
+----------------------- BAGIAN C: DATA USAGE -----------------------
+
+Google bakal nanya serangkaian pertanyaan "Does your extension collect X?"
+
+Jawab SEMUA dengan  **TIDAK / No** :
+
+  Personally identifiable information ............ No
+  Health information .............................. No
+  Financial and payment information ............... No
+  Authentication information ...................... No
+  Personal communications ......................... No
+  Location ........................................ No
+  Web history ..................................... No
+  User activity ................................... No
+  Website content ................................. No
+
+KENAPA semua No: extension ini nggak pernah kirim data ke mana-mana.
+Yang disimpan cuma angka timer di browser lu sendiri.
+
+Kalau muncul pertanyaan "Are you using remote code?"  ->  No
+
+
+----------------------- BAGIAN D: PRIVACY POLICY URL -----------------------
+
+Kalau dashboard WAJIB nanya Privacy Policy URL:
+
+  Kalau lu jawab "tidak mengumpulkan data" di semua pertanyaan di atas,
+  biasanya kolom ini NGGAK muncul / opsional. Kosongin aja.
+
+  Kalau TETAP wajib muncul, lu perlu 1 halaman publik. Cara paling gampang:
+  taruh file PRIVACY.md di repo GitHub lu. Linknya jadi:
+      https://github.com/USERNAME/coffee-time/blob/main/PRIVACY.md
+  Isinya cukup 3-4 paragraf: "Coffee Time does not collect, store, or
+  transmit any personal data. Timer settings are stored locally..."
+
+
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+TAB 3 — DISTRIBUTION
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+
+VISIBILITY
+  Public          : pilih ini kalau mau muncul di search Chrome Web Store
+  Unlisted        : cuma bisa diakses lewat link langsung
+  Private         : cuma lu + tester yang ditunjuk
+
+  -> Rekomendasi: PUBLIC
+
+
+DISTRIBUTION / REGIONS
+  All regions     : centang semua (default)
+                    Nggak ada alasan buat batasi wilayah.
+
+
+PAYMENTS
+  Free            : pilih
+
+
+PRICING
+  (pilih salah satu)
+
+  Option A — langsung publish:
+      Publish automatically after review      ->  pilih ini
+      (extension langsung tayang begitu lolos review)
+
+  Option B — publish manual:
+      Deferred publishing (review dulu, tayang setelah lu klik)
+      -> pilih ini kalau lu mau cek dulu sebelum tayang
+
+
+TRAFFIC / TESTERS
+  Kalau ada kolom "Trusted testers":
+      tambahin akun Google lu sendiri (dan kawan kalau ada).
+      Fungsinya: mereka bisa install versi yang belum di-publish.
+
+
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+URUTAN YANG GUA SARANIN
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+
+  1. TAB PRIVACY      <- kerjain ini DULU, paling banyak kolom
+  2. TAB LISTING      <- deskripsi + upload gambar
+  3. TAB DISTRIBUTION <- paling gampang, tinggal pilih Public
+  4. Klik SAVE DRAFT di tiap tab (jangan skip)
+  5. Terakhir: klik SUBMIT FOR REVIEW
+
+Kenapa Privacy duluan? Karena bagian Data Usage itu paling banyak
+pertanyaannya dan paling sering bikin draft ke-reset kalau di-skip.
+
+
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+KALAU DITOLAK — PENYEBAB PALING UMUM
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+
+"Purple Potassium" / deskripsi kurang jelas
+    -> Deskripsi lu udah jelas. Pastikan nggak ada klaim berlebihan.
+
+"Excessive permissions" / host_permissions terlalu luas
+    -> Sudah dijustifikasi di Bagian B. Kalau ditanya lagi, jelasin
+       bahwa reminder harus muncul di halaman apa pun yang lagi dibuka.
+
+"Privacy policy required"
+    -> Jawab semua Data Usage dengan No, biasanya langsung lolos.
+       Kalau tetap diminta, bikin PRIVACY.md di GitHub (lihat Bagian D).
+
+"Remote code detected"
+    -> Aman, nggak ada. Semua JS dikemas, font di-host lokal.
+
+Review biasanya 1-3 hari kerja. Kalau lewat 5 hari, baru follow up.

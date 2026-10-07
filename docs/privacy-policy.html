@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — Coffee Time</title>
+<style>
+  :root {
+    --bg: #0f0f11;
+    --panel: #16161a;
+    --line: #2a2a30;
+    --text: #e8e8ea;
+    --muted: #9a9aa2;
+    --faint: #6a6a72;
+    --accent: #e8a33d;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #fbfbfc; --panel: #fff; --line: #e6e6ea;
+      --text: #1a1a1e; --muted: #5a5a62; --faint: #8a8a92;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 56px 22px 80px;
+    background: var(--bg); color: var(--text);
+    font: 16px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 720px; margin: 0 auto; }
+
+  .head { padding-bottom: 26px; border-bottom: 1px solid var(--line); margin-bottom: 34px; }
+  .brand {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-weight: 800; font-size: 15px; letter-spacing: -.01em;
+    color: var(--accent); margin-bottom: 16px;
+  }
+  .brand .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--accent);
+  }
+  h1 { font-size: 33px; font-weight: 800; letter-spacing: -.025em; margin: 0 0 10px; }
+  .updated { font-size: 13.5px; color: var(--faint); }
+
+  .summary {
+    background: var(--panel); border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 10px; padding: 18px 20px; margin: 0 0 36px;
+  }
+  .summary p { margin: 0; font-size: 15px; }
+
+  h2 {
+    font-size: 19px; font-weight: 700; letter-spacing: -.015em;
+    margin: 38px 0 12px; padding-top: 6px;
+  }
+  h3 { font-size: 15px; font-weight: 700; margin: 24px 0 8px; }
+  p { margin: 0 0 14px; color: var(--text); }
+  ul { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 7px; }
+
+  code {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 13.5px; padding: 2px 6px;
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 5px;
+  }
+
+  .perm { border-top: 1px solid var(--line); padding-top: 16px; margin-top: 16px; }
+  .perm:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+  .perm strong {
+    display: inline-block; font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 13.5px; color: var(--accent); margin-bottom: 5px;
+  }
+  .perm p { margin: 0; font-size: 15px; color: var(--muted); }
+
+  a { color: var(--accent); }
+  hr { border: none; border-top: 1px solid var(--line); margin: 44px 0 22px; }
+  footer { font-size: 13px; color: var(--faint); }
+  footer p { color: var(--faint); }
+</style>
+</head>
+<body>
+<main>
+
+  <div class="head">
+    <div class="brand"><span class="dot"></span> Coffee Time</div>
+    <h1>Privacy Policy</h1>
+    <div class="updated">Last updated: 7 October 2026</div>
+  </div>
+
+  <div class="summary">
+    <p><strong>Coffee Time does not collect, store, or transmit any personal
+    data.</strong> There is no account, no sign-in, no analytics, and no
+    network connection at runtime.</p>
+  </div>
+
+  <h2>What the extension stores</h2>
+  <p>Coffee Time saves a small amount of data locally in your own browser,
+  using Chrome's built-in <code>chrome.storage.local</code> API:</p>
+  <ul>
+    <li>The time at which your current browsing session started</li>
+    <li>The time limit you selected (1 hour, 3 hours, or 6 hours)</li>
+    <li>Whether you have paused the reminder, and when you paused it</li>
+  </ul>
+  <p>This data never leaves your device. It is not sent to the developer, to
+  Google, or to any third party. It is not linked to your identity, your
+  Google account, or your browsing history. Removing the extension deletes it.</p>
+
+  <h2>What the extension does not do</h2>
+  <ul>
+    <li>It does not read the content of the pages you visit.</li>
+    <li>It does not record, store, or transmit your browsing history.</li>
+    <li>It does not use cookies, tracking pixels, fingerprinting, or
+        advertising identifiers.</li>
+    <li>It does not make any network requests while it is running.</li>
+    <li>It does not include analytics, telemetry, or crash reporting.</li>
+    <li>It does not sell or share data with anyone, because it has none to sell.</li>
+  </ul>
+
+  <h2>Permissions and why they are needed</h2>
+
+  <div class="perm">
+    <strong>storage</strong>
+    <p>Saves the timer state described above, locally on your device.</p>
+  </div>
+
+  <div class="perm">
+    <strong>alarms</strong>
+    <p>Checks the timer every 30 seconds so the reminder can appear shortly
+    after your selected limit is reached, without keeping a background script
+    running continuously.</p>
+  </div>
+
+  <div class="perm">
+    <strong>tabs</strong>
+    <p>Identifies which open pages the visual reminder needs to appear on, and
+    sends them the activation message. A tab's address is read only to decide
+    whether the page may be modified. Page content is never read.</p>
+  </div>
+
+  <div class="perm">
+    <strong>Access to all websites</strong>
+    <p>The reminder has to appear on whichever site you happen to be reading
+    when your time limit passes, so the extension needs to be able to run on
+    any page. On those pages it only adds visual styling: a custom cursor
+    image and a dark overlay. It does not read, change, or transmit page
+    content. It does not run on Chrome's internal pages
+    (<code>chrome://</code>), the Chrome Web Store, or the built-in PDF
+    viewer.</p>
+  </div>
+
+  <h2>Third parties</h2>
+  <p>Coffee Time contains no third-party services, SDKs, or advertising
+  networks. The only bundled asset of note is the Nunito typeface, which is
+  shipped inside the extension rather than loaded from a server. It is
+  licensed under the SIL Open Font License 1.1.</p>
+
+  <h2>Children's privacy</h2>
+  <p>Coffee Time collects no data from anyone, including children under 13.
+  There is nothing to collect.</p>
+
+  <h2>Changes to this policy</h2>
+  <p>If a future version of Coffee Time ever handles data differently, this
+  page will be updated before that version is released, and the "Last updated"
+  date above will change. The current version collects nothing, and any change
+  in that behaviour would be disclosed here.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about this policy can be sent to
+  <a href="mailto:your-email@example.com">your-email@example.com</a>.</p>
+
+  <hr>
+  <footer>
+    <p>Coffee Time is an independent project. It is not affiliated with Google
+    or Chrome.</p>
+  </footer>
+
+</main>
+</body>
+</html>
