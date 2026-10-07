@@ -165,6 +165,10 @@ render `docs/popup.png`. It is not part of the extension.
   Cyreal, and Jacques Le Bailly — SIL Open Font License 1.1
 - Reset icon: Material Symbols (Apache License 2.0)
 
+## Tip
+
+SOL : DcjLpDVQ79zVTLhnCLWWrVdTtYvoQJZq2vWkhBHg3RN9
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
